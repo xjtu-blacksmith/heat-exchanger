@@ -1,0 +1,25 @@
+# name of the software
+name: 换热器设计
+start_url: intro
+
+project:
+    version: 2020 Spring
+    download_url: https://github.com/xjtu-blacksmith/heat-exchanger
+
+license:
+    software: MIT License
+    software_url: https://opensource.org/licenses/MIT
+
+    docs: CC BY-SA 4.0
+    docs_url: https://creativecommons.org/licenses/by-sa/4.0/
+
+ui:
+    header:
+        color1: "#141414"
+        color2: "#253147"
+        trianglify: true
+
+# Build settings
+exclude:
+    - Gemfile
+    - Gemfile.lock
