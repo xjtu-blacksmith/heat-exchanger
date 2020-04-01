@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chen's corelation</title>
+    <script crossorigin="anonymous" integrity="sha384-WAbmGwLxJL310ItZFNyboj/yP4Ik1O3hYIKB4Pmfj2gLJqJV69nckszmDrw1SDR9" src="https://lib.baomitu.com/mathjs/6.2.3/math.min.js"></script>
+</head>
+<body>
+    <script>
+        const parser = math.parser()
+        let scope = {
+            x : 0.5,  // 干度
+            mu_l : 199e-6,  // 液相粘度
+            mu_g : 12e-6,  // 气相粘度
+            rho_l : 1265,  // 液相密度
+            rho_g : 25,  // 气相密度
+            G: 200,  // 质量流量
+            i_fg: 200,  // 潜热 
+            d_i: 0.013,  // 内径
+            Pr_l: 2.51,  // Prandtl number
+            P_r: 0.1168,  // reduced pressure
+            q: 10e3,  // 热流密度
+            M: 86.47,  // 相对分子质量
+            m: 0.12,  // 光滑管指数
+        }
+        parser.scope = scope  // pass scope to parser
+        parser.evaluate('Re_l = G * d_i * (1-x) / mu_l')
+        parser.evaluate('Xtt = ((1-x)/x)^0.875 * (mu_l/mu_g)^0.125 * (rho_g/rho_l)^0.5')
+        parser.evaluate('h_CV = 0.023 * Re_l^0.8 * Pr_l^0.4')
+        parser.evaluate('h_NB = 55 * q^0.67 * M^(-0.5) * P_r^m * (-log10(P_r))^(-0.55)')
+        parser.evaluate('E = 2.35/(1/Xtt + 0.213)^0.736')
+        parser.evaluate('Re = Re_l * E^1.25')
+        parser.evaluate('S = 1/(1 + 2.53e-6 * Re^1.17)')
+        parser.evaluate('h = S * h_NB + E * h_CV')
+        const h = parser.get('h')
+        console.log(h)
+    </script>
+</body>
+</html>
